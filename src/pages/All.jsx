@@ -1,21 +1,19 @@
-import React from "react";
-import TodoList from "../components/TodoList";
+import { useContext } from "react";
 
-const All = (props) => {
-  const { input, handleChange, handleSubmitForm, todos, toggleTodo } = props;
+import TodoList from "../components/TodoList";
+import { TodoContext } from "../context/TodoContext";
+
+const All = () => {
+  const { todos, toggleTodo, deleteTodo, updateTodo } = useContext(TodoContext);
+
   return (
     <>
-      <form onSubmit={handleSubmitForm} className="d-flex gap-3">
-        <input
-          className="form-control"
-          placeholder="add details"
-          name="input"
-          value={input}
-          onChange={handleChange}
-        />
-        <button className="btn btn-primary">Add</button>
-      </form>
-      <TodoList todos={todos} toggleTodo={toggleTodo}/>
+      <TodoList
+        todos={todos}
+        toggleTodo={toggleTodo}
+        deleteTodo={deleteTodo}
+        updateTodo={updateTodo}
+      />
     </>
   );
 };

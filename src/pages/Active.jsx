@@ -1,24 +1,24 @@
-import React from "react";
+import { useContext } from "react";
+import { TodoContext } from "../context/TodoContext";
+
 import TodoList from "../components/TodoList";
 
-const Active = (props) => {
-  const { input, handleChange, handleSubmitForm, todos, toggleTodo } = props;
-  const activeTodos = todos.filter(todo => todo.active)
+const Active = () => {
+  const { todos, toggleTodo, deleteTodo, updateTodo } = useContext(TodoContext);
+  
+  const activeTodos = todos.filter((todo) => todo.active);
+
+  function getRealIndex(todo) {
+    return todos.findIndex(t => t === todo)
+  }
 
   return (
-    <>
-      <form onSubmit={handleSubmitForm} className="d-flex gap-3">
-        <input
-          className="form-control"
-          placeholder="add details"
-          name="input"
-          value={input}
-          onChange={handleChange}
-        />
-        <button className="btn btn-primary">Add</button>
-      </form>
-      <TodoList todos={activeTodos} toggleTodo={toggleTodo}/>
-    </>
+    <TodoList
+      todos={activeTodos}
+      toggleTodo={(i) => toggleTodo(getRealIndex(activeTodos[i]))}
+      deleteTodo={(i) => deleteTodo(getRealIndex(activeTodos[i]))}
+      updateTodo={(i, updatedTodo) => updateTodo(getRealIndex(activeTodos[i]), updatedTodo)}
+    />
   );
 };
 
